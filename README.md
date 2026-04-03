@@ -8,6 +8,7 @@
 [![Voxtral](https://img.shields.io/badge/TTS-Voxtral--4B-purple)](https://mistral.ai)
 [![Docker](https://img.shields.io/badge/Infra-Docker-2496ED?logo=docker&logoColor=white)](https://docker.com)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow)](LICENSE)
+[![Live Demo](https://img.shields.io/badge/Demo-Live--Preview-success?logo=github-pages&logoColor=white)](https://stanm3n.github.io/voxtral-voice-gen/)
 
 ---
 
@@ -104,13 +105,25 @@ Several failure modes in voice pipelines are non-obvious. This project addresses
 
 ---
 
+## Multilingual & Cross-lingual Support
+
+Voxtral Voice Gen is natively designed for high-fidelity multilingual speech. Unlike models that require separate weights for different languages, this pipeline handles code-switching and accents within a single inference call.
+
+- **Native Languages:** German, English, French, Italian (Full prosodic support)
+- **Zero-Shot Accents:** Generate text in language A with the acoustic characteristics (accent) of language B.
+- **Diarization Ready:** The backend architecture is prepared for future multi-speaker extensions.
+
+---
+
+---
+
 ## Setup
 
 **Prerequisites:** Docker Desktop with NVIDIA Container Toolkit, Python 3.11, CUDA 12.1+
 
 **1. Clone the repository**
 ```bash
-git clone https://github.com/yourusername/voxtral-voice-gen
+git clone https://github.com/Stanm3n/voxtral-voice-gen
 cd voxtral-voice-gen
 ```
 
@@ -138,7 +151,7 @@ LLM_URL=https://api.deepseek.com/v1
 LLM_API_KEY=your_key_here
 ```
 
-The LLM endpoint accepts any OpenAI-compatible API. LM Studio (local),vLLM(Docker GPT-OSS20b) DeepSeek, and
+The LLM endpoint accepts any OpenAI-compatible API. LM Studio (local), vLLM (Docker GPT-OSS20b), DeepSeek, and
 OpenRouter have been tested.
 
 **5. Start**
