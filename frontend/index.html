@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Voxtral Voicebot – Local AI Voice Assistant</title>
+  <meta name="description" content="A fully local AI voicebot: Whisper STT → local LLM → Voxtral-4B TTS. No cloud APIs, no data leaving your machine. Portfolio project by Stanislav Eirich." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="app">
+
+    <!-- ── Header ─────────────────────────────────────────────────── -->
+    <header id="header">
+      <div id="logo">
+        <div id="logo-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z" fill="url(#logo-grad)"/>
+            <path d="M8 12 Q10 8 12 12 Q14 16 16 12" stroke="white" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+            <defs>
+              <linearGradient id="logo-grad" x1="0" y1="0" x2="24" y2="24" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stop-color="#8b5cf6"/>
+                <stop offset="100%" stop-color="#06b6d4"/>
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+        <div id="logo-text-wrap">
+          <span id="logo-text">VOXTRAL<span class="logo-sub">VOICEBOT</span></span>
+          <span id="logo-badge">LOCAL AI</span>
+        </div>
+      </div>
+
+      <div id="status-bar">
+        <div class="status-chip" id="s-llm">
+          <span class="dot"></span>
+          <span class="label">LLM</span>
+        </div>
+        <div class="status-chip" id="s-voxtral">
+          <span class="dot"></span>
+          <span class="label">Voxtral TTS</span>
+        </div>
+        <div class="status-chip" id="s-whisper">
+          <span class="dot"></span>
+          <span class="label" id="stt-chip-label">Whisper STT</span>
+        </div>
+
+      </div>
+
+      <div id="header-right">
+        <div id="context-meter" title="Estimated Token Usage in Context Window">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M4 7h16M4 12h16m-7 5h7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          <span id="context-text">0 / 8192</span> ctx
+        </div>
+
+        <div class="divider-y"></div>
+
+
+
+        <!-- TTS Voice Selector -->
+        <div class="select-group" title="TTS Voice">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M11 5L6 9H2v6h4l5 4V5z" fill="currentColor"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          <select id="voice-select">
+            <optgroup label="English">
+              <option value="casual_male">Casual Male</option>
+              <option value="casual_female">Casual Female</option>
+              <option value="neutral_male">Neutral Male</option>
+              <option value="neutral_female">Neutral Female</option>
+              <option value="cheerful_female">Cheerful Female</option>
+            </optgroup>
+            <optgroup label="German">
+              <option value="de_male">German Male</option>
+              <option value="de_female">German Female</option>
+            </optgroup>
+            <optgroup label="French">
+              <option value="fr_male">French Male</option>
+              <option value="fr_female">French Female</option>
+            </optgroup>
+            <optgroup label="Spanish">
+              <option value="es_male">Spanish Male</option>
+              <option value="es_female">Spanish Female</option>
+            </optgroup>
+            <optgroup label="Italian">
+              <option value="it_male">Italian Male</option>
+              <option value="it_female">Italian Female</option>
+            </optgroup>
+            <optgroup label="Dutch">
+              <option value="nl_male">Dutch Male</option>
+              <option value="nl_female">Dutch Female</option>
+            </optgroup>
+            <optgroup label="Portuguese">
+              <option value="pt_male">Portuguese Male</option>
+              <option value="pt_female">Portuguese Female</option>
+            </optgroup>
+            <optgroup label="Hindi">
+              <option value="hi_male">Hindi Male</option>
+              <option value="hi_female">Hindi Female</option>
+            </optgroup>
+            <optgroup label="Arabic">
+              <option value="ar_male">Arabic Male</option>
+            </optgroup>
+          </select>
+        </div>
+
+        <!-- TTS Test Mode Toggle -->
+        <button id="tts-test-toggle" class="icon-btn" title="AI Voice Chat — Speak with a local LLM via voice">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+            <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
+            <path d="M8 12 Q10 8 12 12 Q14 16 16 12" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/>
+          </svg>
+        </button>
+
+        <!-- TTS Toggle -->
+        <button id="tts-toggle" class="icon-btn active" title="Toggle TTS output">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+            <path d="M11 5L6 9H2v6h4l5 4V5z" fill="currentColor"/>
+            <path d="M15.54 8.46a5 5 0 0 1 0 7.07" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            <path d="M19.07 4.93a10 10 0 0 1 0 14.14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- ── Layout ─────────────────────────────────────────────────── -->
+    <div id="layout">
+
+      <!-- Sidebar -->
+      <aside id="sidebar">
+
+        <button id="new-chat-btn">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M12 5v14m-7-7h14" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>
+          New Chat
+        </button>
+
+        <ul id="chat-list">
+          <!-- populated by JS -->
+        </ul>
+
+
+
+        <div class="sidebar-section-title" style="margin-top:0">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><rect x="2" y="3" width="20" height="14" rx="2" stroke="currentColor" stroke-width="2"/><path d="M8 21h8M12 17v4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          Stack
+        </div>
+        <div class="stack-pills">
+          <span class="pill pill-llm">Local LLM</span>
+          <span class="pill pill-tts">Voxtral 4B TTS</span>
+          <span class="pill pill-stt">Whisper STT</span>
+          <span class="pill">FastAPI</span>
+          <span class="pill">vLLM</span>
+          <span class="pill">Docker</span>
+        </div>
+
+        <div class="sidebar-divider"></div>
+
+        <!-- System Prompt Editor -->
+        <div class="sidebar-section-title" style="margin-top:0">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M12 20h9" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          System Prompt
+          <button id="reset-prompt-btn" class="inline-reset-btn" title="Reset to default">↺</button>
+        </div>
+        <textarea id="system-prompt-editor" class="prompt-editor" rows="4" placeholder="Write your own system prompt…"></textarea>
+        <button id="save-prompt-btn" class="save-prompt-btn">Save Prompt</button>
+
+        <div class="sidebar-divider"></div>
+
+      </aside>
+
+      <!-- Chat -->
+      <main id="chat-area">
+        <div id="messages">
+          <!-- populated by js -->
+        </div>
+
+        <!-- Typing indicator -->
+        <div id="typing-indicator" class="hidden">
+          <div class="avatar ai-avatar">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.5"/><path d="M8 12 Q10 8 12 12 Q14 16 16 12" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round"/></svg>
+          </div>
+          <div class="typing-bubble">
+            <span></span><span></span><span></span>
+          </div>
+        </div>
+
+
+
+        <!-- Input bar -->
+        <div id="input-bar">
+          <button id="record-btn" class="icon-btn" title="Hold to record (Spacebar)">
+            <svg id="mic-icon" width="17" height="17" viewBox="0 0 24 24" fill="none">
+              <rect x="9" y="2" width="6" height="12" rx="3" stroke="currentColor" stroke-width="2"/>
+              <path d="M5 10a7 7 0 0 0 14 0" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              <path d="M12 19v3M9 22h6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </button>
+          <div id="input-wrapper">
+            <textarea id="message-input" placeholder="Type anything… it will be spoken aloud instantly" rows="1"></textarea>
+          </div>
+          <button id="send-btn" class="send-btn" title="Speak this text">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none">
+              <path d="M11 5L6 9H2v6h4l5 4V5z" fill="currentColor"/>
+              <path d="M15.54 8.46a5 5 0 0 1 0 7.07" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </button>
+        </div>
+
+        <div id="recording-overlay" class="hidden">
+          <div id="recording-indicator">
+            <div class="pulse-ring"></div>
+            <div class="pulse-core"></div>
+          </div>
+          <span>Listening… click mic to stop</span>
+        </div>
+      </main>
+
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

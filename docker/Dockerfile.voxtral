@@ -1,0 +1,12 @@
+# Build this image with: docker build -f docker/Dockerfile.voxtral -t voxtral-tts ./docker
+
+FROM vllm/vllm-openai:latest
+
+# Install git (needed to clone vllm-omni from source)
+RUN apt-get update && apt-get install -y --no-install-recommends git \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install vllm-omni (adds --omni flag + Voxtral TTS support)
+RUN pip install --no-cache-dir \
+    git+https://github.com/vllm-project/vllm-omni.git \
+    "mistral-common>=1.10.0"

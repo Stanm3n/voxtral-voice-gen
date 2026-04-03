@@ -1,0 +1,44 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+venv/
+.venv/
+*.egg-info/
+
+# Environment
+.env
+backend/.env
+*.env.local
+
+# Backend Data (exclude private histories)
+backend/data/*.json
+!backend/data/.gitkeep
+
+# Models (too large for git)
+models/
+!models/.gitkeep
+
+# Audio cache
+*.wav
+*.mp3
+*.ogg
+audio_cache/
+!docs/audio/
+
+# Docker build artifacts
+docker/*.tar
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE
+.vscode/
+.idea/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+

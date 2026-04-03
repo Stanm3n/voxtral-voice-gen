@@ -1,0 +1,33 @@
+# Voxtral Voicebot — Docker Compose
+
+services:
+  # ── Voxtral-4B TTS  (GPU 1) ───────────────────────────────────────────────
+  voxtral:
+    build:
+      context: ./docker
+      dockerfile: Dockerfile.voxtral
+    container_name: voicebot-voxtral
+    ipc: host
+    volumes:
+      - ./models/voxtral:/model:ro
+    ports:
+      - "8002:8000"
+    command: >
+      /model
+      --omni
+      --gpu-memory-utilization 0.50
+      --dtype bfloat16
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              device_ids: ["${TTS_GPU_ID:-0}"]
+              capabilities: [gpu]
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 600s

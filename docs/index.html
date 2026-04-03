@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Voxtral Voice Gen – Demo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --bg:        #F5F3EF;
+      --surface:   #ECEAE4;
+      --border:    #D8D5CE;
+      --text:      #1C1B18;
+      --muted:     #7A7870;
+      --accent:    #1B5E3B;
+      --accent-lt: #E8F2EC;
+      --player-bg: #FFFFFF;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      font-size: 16px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 clamp(24px, 5vw, 80px);
+      height: 60px;
+      background: rgba(245, 243, 239, 0.88);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-logo {
+      font-family: 'Fraunces', serif;
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--text);
+      text-decoration: none;
+      letter-spacing: -0.01em;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 28px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 0.85rem;
+      font-weight: 400;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--text); }
+
+    /* ── HERO ── */
+    .hero {
+      padding: clamp(64px, 10vw, 120px) clamp(24px, 5vw, 80px) clamp(48px, 7vw, 80px);
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .hero-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.78rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent);
+      background: var(--accent-lt);
+      padding: 5px 12px;
+      border-radius: 100px;
+      margin-bottom: 32px;
+    }
+
+    .hero-tag::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+    }
+
+    .hero h1 {
+      font-family: 'Fraunces', serif;
+      font-size: clamp(2.6rem, 5.5vw, 4.2rem);
+      font-weight: 300;
+      line-height: 1.1;
+      letter-spacing: -0.03em;
+      color: var(--text);
+      max-width: 750px;
+      margin-bottom: 24px;
+    }
+
+    .hero h1 em {
+      font-style: normal;
+      color: var(--accent);
+    }
+
+    .hero-sub {
+      font-size: 1.05rem;
+      font-weight: 300;
+      color: var(--muted);
+      max-width: 560px;
+      line-height: 1.75;
+      margin-bottom: 40px;
+    }
+
+    .hero-meta {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    .hero-meta a {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.88rem;
+      font-weight: 500;
+      color: var(--text);
+      text-decoration: none;
+      border: 1px solid var(--border);
+      padding: 10px 20px;
+      border-radius: 8px;
+      transition: border-color 0.2s, background 0.2s;
+    }
+
+    .hero-meta a:hover {
+      border-color: var(--text);
+      background: var(--surface);
+    }
+
+    .hero-meta span {
+      font-size: 0.82rem;
+      color: var(--muted);
+    }
+
+    /* ── DIVIDER ── */
+    .section-divider {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 clamp(24px, 5vw, 80px);
+      border-top: 1px solid var(--border);
+    }
+
+    /* ── SECTION ── */
+    .section {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: clamp(48px, 7vw, 88px) clamp(24px, 5vw, 80px);
+    }
+
+    .section-header {
+      display: flex;
+      align-items: baseline;
+      gap: 16px;
+      margin-bottom: 48px;
+    }
+
+    .section-header h2 {
+      font-family: 'Fraunces', serif;
+      font-size: clamp(1.5rem, 2.5vw, 2rem);
+      font-weight: 300;
+      letter-spacing: -0.02em;
+    }
+
+    .section-header p {
+      font-size: 0.88rem;
+      color: var(--muted);
+    }
+
+    /* ── CASES GRID ── */
+    .cases-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(min(100%, 480px), 1fr));
+      gap: 2px;
+    }
+
+    /* ── CASE CARD ── */
+    .case-card {
+      background: var(--player-bg);
+      border: 1px solid var(--border);
+      padding: 32px;
+      transition: box-shadow 0.25s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .case-card:hover {
+      box-shadow: 0 4px 24px rgba(0,0,0,0.07);
+      z-index: 1;
+    }
+
+    .case-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 3px; height: 100%;
+      background: var(--accent);
+      opacity: 0;
+      transition: opacity 0.25s;
+    }
+
+    .case-card:hover::before { opacity: 1; }
+
+    .case-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 16px;
+    }
+
+    .case-label svg {
+      width: 13px;
+      height: 13px;
+      stroke: var(--muted);
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .case-text {
+      font-size: 0.97rem;
+      font-weight: 300;
+      color: var(--text);
+      line-height: 1.75;
+      margin-bottom: 28px;
+      font-style: italic;
+      quotes: "„" """ "‚" "'";
+    }
+
+    .case-text::before { content: open-quote; }
+    .case-text::after  { content: close-quote; }
+
+    /* ── CUSTOM AUDIO PLAYER ── */
+    .audio-player {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      background: var(--surface);
+      border-radius: 8px;
+      padding: 12px 16px;
+    }
+
+    .play-btn {
+      flex-shrink: 0;
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: var(--accent);
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.15s, background 0.15s;
+    }
+
+    .play-btn:hover { transform: scale(1.07); background: #154d2f; }
+    .play-btn:disabled { background: var(--border); cursor: not-allowed; }
+
+    .play-btn svg {
+      width: 14px;
+      height: 14px;
+      fill: white;
+      margin-left: 2px;
+    }
+
+    .play-btn.playing svg { margin-left: 0; }
+
+    /* waveform bars */
+    .waveform {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      gap: 2px;
+      height: 28px;
+      overflow: hidden;
+    }
+
+    .waveform-bar {
+      flex: 1;
+      max-width: 3px;
+      background: var(--border);
+      border-radius: 2px;
+      transition: background 0.2s;
+    }
+
+    .waveform.active .waveform-bar {
+      background: var(--accent);
+      animation: waveAnim 0.8s ease-in-out infinite alternate;
+    }
+
+    @keyframes waveAnim {
+      0%   { transform: scaleY(0.3); }
+      100% { transform: scaleY(1); }
+    }
+
+    .waveform.active .waveform-bar:nth-child(1)  { animation-delay: 0.00s; }
+    .waveform.active .waveform-bar:nth-child(2)  { animation-delay: 0.05s; }
+    .waveform.active .waveform-bar:nth-child(3)  { animation-delay: 0.10s; }
+    .waveform.active .waveform-bar:nth-child(4)  { animation-delay: 0.15s; }
+    .waveform.active .waveform-bar:nth-child(5)  { animation-delay: 0.20s; }
+    .waveform.active .waveform-bar:nth-child(6)  { animation-delay: 0.10s; }
+    .waveform.active .waveform-bar:nth-child(7)  { animation-delay: 0.05s; }
+    .waveform.active .waveform-bar:nth-child(8)  { animation-delay: 0.00s; }
+    .waveform.active .waveform-bar:nth-child(9)  { animation-delay: 0.08s; }
+    .waveform.active .waveform-bar:nth-child(10) { animation-delay: 0.16s; }
+    .waveform.active .waveform-bar:nth-child(11) { animation-delay: 0.12s; }
+    .waveform.active .waveform-bar:nth-child(12) { animation-delay: 0.04s; }
+    .waveform.active .waveform-bar:nth-child(13) { animation-delay: 0.18s; }
+    .waveform.active .waveform-bar:nth-child(14) { animation-delay: 0.09s; }
+    .waveform.active .waveform-bar:nth-child(15) { animation-delay: 0.03s; }
+    .waveform.active .waveform-bar:nth-child(16) { animation-delay: 0.14s; }
+    .waveform.active .waveform-bar:nth-child(17) { animation-delay: 0.07s; }
+    .waveform.active .waveform-bar:nth-child(18) { animation-delay: 0.11s; }
+    .waveform.active .waveform-bar:nth-child(19) { animation-delay: 0.19s; }
+    .waveform.active .waveform-bar:nth-child(20) { animation-delay: 0.02s; }
+
+    .audio-time {
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: var(--muted);
+      font-variant-numeric: tabular-nums;
+      min-width: 36px;
+      text-align: right;
+    }
+
+    /* ── COMING SOON badge ── */
+    .coming-soon {
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--muted);
+      background: var(--surface);
+      border: 1px dashed var(--border);
+      border-radius: 4px;
+      padding: 10px 14px;
+      text-align: center;
+    }
+
+    /* ── TECH STRIP ── */
+    .tech-strip {
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .tech-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 40px clamp(24px, 5vw, 80px);
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 32px;
+    }
+
+    .tech-item h4 {
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+
+    .tech-item p {
+      font-size: 0.92rem;
+      font-weight: 400;
+      color: var(--text);
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 40px clamp(24px, 5vw, 80px);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    footer p {
+      font-size: 0.82rem;
+      color: var(--muted);
+    }
+
+    footer a {
+      font-size: 0.82rem;
+      color: var(--muted);
+      text-decoration: none;
+      border-bottom: 1px solid var(--border);
+      transition: color 0.2s, border-color 0.2s;
+    }
+
+    footer a:hover {
+      color: var(--text);
+      border-color: var(--text);
+    }
+
+    /* ── FADE IN ── */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(18px);
+      transition: opacity 0.55s ease, transform 0.55s ease;
+    }
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#">Voxtral Voice Gen</a>
+  <ul class="nav-links">
+    <li><a href="#demos">Demos</a></li>
+    <li><a href="#technik">Technik</a></li>
+    <li><a href="https://github.com/yourusername/voxtral-voice-gen" target="_blank">GitHub →</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero fade-in">
+  <div class="hero-tag">Portfolio-Projekt · Lokale KI-Sprachsynthese</div>
+  <h1>Natürliche Sprache.<br><em>Vollständig lokal.</em></h1>
+  <p class="hero-sub">
+    Voxtral Voice Gen zeigt, wie das Voxtral-4B-Modell von Mistral strukturierte Texte —
+    aus Berichten, Wissensdatenbanken oder KI-Ausgaben — in hochwertige Sprache umwandelt.
+    Kein Cloud-Dienst. Keine Datenweitergabe.
+  </p>
+  <div class="hero-meta">
+    <a href="https://github.com/yourusername/voxtral-voice-gen" target="_blank">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+      Quellcode ansehen
+    </a>
+    <span>Modell: Voxtral-4B · Mistral AI</span>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- DEMOS -->
+<section class="section" id="demos">
+  <div class="section-header fade-in">
+    <h2>Anwendungsfälle</h2>
+    <p>Generiert mit Voxtral-4B auf lokaler Hardware</p>
+  </div>
+
+  <div class="cases-grid">
+
+    <!-- 1. Finanzen -->
+    <div class="case-card fade-in">
+      <div class="case-label">
+        <svg viewBox="0 0 24 24"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
+        Finanzreport
+      </div>
+      <p class="case-text">
+        Im dritten Quartal stieg der Umsatz um 12,4 Prozent gegenüber dem Vorjahreszeitraum.
+        Wesentlicher Wachstumstreiber war die Region EMEA mit einem Zuwachs von 18 Prozent.
+        Das bereinigte EBITDA liegt bei 340 Millionen Euro.
+      </p>
+      <div class="audio-player" data-src="audio/finance.mp3">
+        <button class="play-btn" aria-label="Abspielen">
+          <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+        </button>
+        <div class="waveform">
+          <div class="waveform-bar" style="height:40%"></div><div class="waveform-bar" style="height:70%"></div>
+          <div class="waveform-bar" style="height:55%"></div><div class="waveform-bar" style="height:85%"></div>
+          <div class="waveform-bar" style="height:45%"></div><div class="waveform-bar" style="height:95%"></div>
+          <div class="waveform-bar" style="height:60%"></div><div class="waveform-bar" style="height:75%"></div>
+          <div class="waveform-bar" style="height:50%"></div><div class="waveform-bar" style="height:90%"></div>
+          <div class="waveform-bar" style="height:65%"></div><div class="waveform-bar" style="height:40%"></div>
+          <div class="waveform-bar" style="height:80%"></div><div class="waveform-bar" style="height:55%"></div>
+          <div class="waveform-bar" style="height:70%"></div><div class="waveform-bar" style="height:45%"></div>
+          <div class="waveform-bar" style="height:85%"></div><div class="waveform-bar" style="height:60%"></div>
+          <div class="waveform-bar" style="height:35%"></div><div class="waveform-bar" style="height:75%"></div>
+        </div>
+        <span class="audio-time">0:00</span>
+      </div>
+    </div>
+
+    <!-- 2. Kundensupport -->
+    <div class="case-card fade-in">
+      <div class="case-label">
+        <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        Kundensupport
+      </div>
+      <p class="case-text">
+        Ihre Bestellung wurde soeben versandt und wird voraussichtlich bis Donnerstag,
+        den 10. April bei Ihnen eintreffen. Ihre Sendungsnummer lautet DE4892017563.
+        Bei Fragen stehen wir Ihnen jederzeit zur Verfügung.
+      </p>
+      <div class="audio-player" data-src="audio/support.mp3">
+        <button class="play-btn" aria-label="Abspielen">
+          <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+        </button>
+        <div class="waveform">
+          <div class="waveform-bar" style="height:60%"></div><div class="waveform-bar" style="height:45%"></div>
+          <div class="waveform-bar" style="height:80%"></div><div class="waveform-bar" style="height:55%"></div>
+          <div class="waveform-bar" style="height:70%"></div><div class="waveform-bar" style="height:40%"></div>
+          <div class="waveform-bar" style="height:90%"></div><div class="waveform-bar" style="height:65%"></div>
+          <div class="waveform-bar" style="height:50%"></div><div class="waveform-bar" style="height:75%"></div>
+          <div class="waveform-bar" style="height:85%"></div><div class="waveform-bar" style="height:45%"></div>
+          <div class="waveform-bar" style="height:60%"></div><div class="waveform-bar" style="height:95%"></div>
+          <div class="waveform-bar" style="height:55%"></div><div class="waveform-bar" style="height:70%"></div>
+          <div class="waveform-bar" style="height:40%"></div><div class="waveform-bar" style="height:80%"></div>
+          <div class="waveform-bar" style="height:65%"></div><div class="waveform-bar" style="height:50%"></div>
+        </div>
+        <span class="audio-time">0:00</span>
+      </div>
+    </div>
+
+    <!-- 3. Medizin -->
+    <div class="case-card fade-in">
+      <div class="case-label">
+        <svg viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+        Klinischer Bericht
+      </div>
+      <p class="case-text">
+        Die Vitalwerte des Patienten sind stabil. Blutdruck 120 zu 80 Millimeter Quecksilbersäule,
+        Herzfrequenz 72 Schläge pro Minute, Sauerstoffsättigung 98 Prozent.
+        Keine Auffälligkeiten im EKG der Nacht festgestellt.
+      </p>
+      <div class="audio-player" data-src="audio/medical.mp3">
+        <button class="play-btn" aria-label="Abspielen">
+          <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+        </button>
+        <div class="waveform">
+          <div class="waveform-bar" style="height:50%"></div><div class="waveform-bar" style="height:80%"></div>
+          <div class="waveform-bar" style="height:40%"></div><div class="waveform-bar" style="height:90%"></div>
+          <div class="waveform-bar" style="height:65%"></div><div class="waveform-bar" style="height:55%"></div>
+          <div class="waveform-bar" style="height:75%"></div><div class="waveform-bar" style="height:45%"></div>
+          <div class="waveform-bar" style="height:85%"></div><div class="waveform-bar" style="height:60%"></div>
+          <div class="waveform-bar" style="height:70%"></div><div class="waveform-bar" style="height:50%"></div>
+          <div class="waveform-bar" style="height:40%"></div><div class="waveform-bar" style="height:80%"></div>
+          <div class="waveform-bar" style="height:55%"></div><div class="waveform-bar" style="height:95%"></div>
+          <div class="waveform-bar" style="height:65%"></div><div class="waveform-bar" style="height:45%"></div>
+          <div class="waveform-bar" style="height:75%"></div><div class="waveform-bar" style="height:60%"></div>
+        </div>
+        <span class="audio-time">0:00</span>
+      </div>
+    </div>
+
+    <!-- 4. Logistik -->
+    <div class="case-card fade-in">
+      <div class="case-label">
+        <svg viewBox="0 0 24 24"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+        Logistik & Disposition
+      </div>
+      <p class="case-text">
+        Fahrer Müller, Ihre Route wurde aktualisiert. Drei zusätzliche Stopps wurden hinzugefügt.
+        Die neue geschätzte Abschlusszeit beträgt 17 Uhr 30.
+        Bitte bestätigen Sie den Eingang dieser Nachricht.
+      </p>
+      <div class="audio-player" data-src="audio/logistics.mp3">
+        <button class="play-btn" aria-label="Abspielen">
+          <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+        </button>
+        <div class="waveform">
+          <div class="waveform-bar" style="height:75%"></div><div class="waveform-bar" style="height:50%"></div>
+          <div class="waveform-bar" style="height:90%"></div><div class="waveform-bar" style="height:60%"></div>
+          <div class="waveform-bar" style="height:40%"></div><div class="waveform-bar" style="height:80%"></div>
+          <div class="waveform-bar" style="height:55%"></div><div class="waveform-bar" style="height:95%"></div>
+          <div class="waveform-bar" style="height:65%"></div><div class="waveform-bar" style="height:45%"></div>
+          <div class="waveform-bar" style="height:70%"></div><div class="waveform-bar" style="height:85%"></div>
+          <div class="waveform-bar" style="height:50%"></div><div class="waveform-bar" style="height:60%"></div>
+          <div class="waveform-bar" style="height:75%"></div><div class="waveform-bar" style="height:40%"></div>
+          <div class="waveform-bar" style="height:90%"></div><div class="waveform-bar" style="height:55%"></div>
+          <div class="waveform-bar" style="height:70%"></div><div class="waveform-bar" style="height:80%"></div>
+        </div>
+        <span class="audio-time">0:00</span>
+      </div>
+    </div>
+
+    <!-- 5. Nachrichten -->
+    <div class="case-card fade-in">
+      <div class="case-label">
+        <svg viewBox="0 0 24 24"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"/><path d="M18 14h-8"/><path d="M15 18h-5"/><path d="M10 6h8v4h-8V6Z"/></svg>
+        Nachrichten & Broadcast
+      </div>
+      <p class="case-text">
+        Die deutschen Aktienmärkte schlossen heute im Plus. Der DAX legte um 1,2 Prozent zu
+        und erreichte 18.320 Punkte. Auslöser war die überraschend niedrig ausgefallene
+        Inflationsrate von 2,1 Prozent für den Monat März.
+      </p>
+      <div class="audio-player" data-src="audio/news.mp3">
+        <button class="play-btn" aria-label="Abspielen">
+          <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+        </button>
+        <div class="waveform">
+          <div class="waveform-bar" style="height:65%"></div><div class="waveform-bar" style="height:85%"></div>
+          <div class="waveform-bar" style="height:50%"></div><div class="waveform-bar" style="height:70%"></div>
+          <div class="waveform-bar" style="height:90%"></div><div class="waveform-bar" style="height:45%"></div>
+          <div class="waveform-bar" style="height:75%"></div><div class="waveform-bar" style="height:55%"></div>
+          <div class="waveform-bar" style="height:40%"></div><div class="waveform-bar" style="height:80%"></div>
+          <div class="waveform-bar" style="height:60%"></div><div class="waveform-bar" style="height:95%"></div>
+          <div class="waveform-bar" style="height:50%"></div><div class="waveform-bar" style="height:70%"></div>
+          <div class="waveform-bar" style="height:85%"></div><div class="waveform-bar" style="height:45%"></div>
+          <div class="waveform-bar" style="height:65%"></div><div class="waveform-bar" style="height:55%"></div>
+          <div class="waveform-bar" style="height:75%"></div><div class="waveform-bar" style="height:40%"></div>
+        </div>
+        <span class="audio-time">0:00</span>
+      </div>
+    </div>
+
+    <!-- 6. Accessibility -->
+    <div class="case-card fade-in">
+      <div class="case-label">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        Barrierefreiheit
+      </div>
+      <p class="case-text">
+        Abschnitt drei, Datenschutz. Der Verantwortliche verarbeitet personenbezogene Daten
+        ausschließlich auf Grundlage der DSGVO. Eine Weitergabe an Dritte erfolgt nur
+        mit ausdrücklicher Einwilligung der betroffenen Person.
+      </p>
+      <div class="audio-player" data-src="audio/accessibility.mp3">
+        <button class="play-btn" aria-label="Abspielen">
+          <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+        </button>
+        <div class="waveform">
+          <div class="waveform-bar" style="height:55%"></div><div class="waveform-bar" style="height:75%"></div>
+          <div class="waveform-bar" style="height:90%"></div><div class="waveform-bar" style="height:50%"></div>
+          <div class="waveform-bar" style="height:65%"></div><div class="waveform-bar" style="height:80%"></div>
+          <div class="waveform-bar" style="height:45%"></div><div class="waveform-bar" style="height:70%"></div>
+          <div class="waveform-bar" style="height:85%"></div><div class="waveform-bar" style="height:55%"></div>
+          <div class="waveform-bar" style="height:40%"></div><div class="waveform-bar" style="height:95%"></div>
+          <div class="waveform-bar" style="height:60%"></div><div class="waveform-bar" style="height:75%"></div>
+          <div class="waveform-bar" style="height:50%"></div><div class="waveform-bar" style="height:65%"></div>
+          <div class="waveform-bar" style="height:80%"></div><div class="waveform-bar" style="height:45%"></div>
+          <div class="waveform-bar" style="height:70%"></div><div class="waveform-bar" style="height:55%"></div>
+        </div>
+        <span class="audio-time">0:00</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- TECH STRIP -->
+<div class="tech-strip" id="technik">
+  <div class="tech-inner">
+    <div class="tech-item fade-in">
+      <h4>TTS-Modell</h4>
+      <p>Voxtral-4B (Mistral AI)</p>
+    </div>
+    <div class="tech-item fade-in">
+      <h4>Inference</h4>
+      <p>vLLM-Omni · Docker</p>
+    </div>
+    <div class="tech-item fade-in">
+      <h4>Backend</h4>
+      <p>FastAPI · Python asyncio</p>
+    </div>
+    <div class="tech-item fade-in">
+      <h4>Hardware</h4>
+      <p>NVIDIA RTX 3090 · Lokal</p>
+    </div>
+    <div class="tech-item fade-in">
+      <h4>Datenschutz</h4>
+      <p>100 % lokal · Kein Cloud-API</p>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <p>Portfolio-Projekt · Voxtral Voice Gen</p>
+  <a href="https://github.com/yourusername/voxtral-voice-gen" target="_blank">GitHub →</a>
+</footer>
+
+<script>
+  // ── Fade-in on scroll ──
+  const observer = new IntersectionObserver(
+    entries => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }),
+    { threshold: 0.1 }
+  );
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+  // ── Audio Players ──
+  let currentAudio = null;
+  let currentPlayer = null;
+
+  function formatTime(s) {
+    const m = Math.floor(s / 60);
+    const sec = Math.floor(s % 60);
+    return `${m}:${sec.toString().padStart(2, '0')}`;
+  }
+
+  function resetPlayer(player) {
+    const btn = player.querySelector('.play-btn');
+    const waveform = player.querySelector('.waveform');
+    const timeEl = player.querySelector('.audio-time');
+    btn.innerHTML = '<svg viewBox="0 0 24 24" fill="white" width="14" height="14" style="margin-left:2px"><polygon points="5 3 19 12 5 21 5 3"/></svg>';
+    btn.classList.remove('playing');
+    waveform.classList.remove('active');
+    timeEl.textContent = '0:00';
+  }
+
+  document.querySelectorAll('.audio-player').forEach(player => {
+    const src = player.dataset.src;
+    const btn = player.querySelector('.play-btn');
+    const waveform = player.querySelector('.waveform');
+    const timeEl = player.querySelector('.audio-time');
+
+    const audio = new Audio(src);
+
+    audio.addEventListener('timeupdate', () => {
+      timeEl.textContent = formatTime(audio.currentTime);
+    });
+
+    audio.addEventListener('ended', () => {
+      resetPlayer(player);
+      currentAudio = null;
+      currentPlayer = null;
+    });
+
+    audio.addEventListener('error', () => {
+      btn.disabled = true;
+      timeEl.textContent = '–:––';
+    });
+
+    btn.addEventListener('click', () => {
+      if (currentAudio && currentAudio !== audio) {
+        currentAudio.pause();
+        currentAudio.currentTime = 0;
+        resetPlayer(currentPlayer);
+      }
+
+      if (audio.paused) {
+        audio.play().catch(() => {
+          btn.disabled = true;
+          timeEl.textContent = '–:––';
+        });
+        btn.innerHTML = '<svg viewBox="0 0 24 24" fill="white" width="14" height="14"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>';
+        btn.classList.add('playing');
+        waveform.classList.add('active');
+        currentAudio = audio;
+        currentPlayer = player;
+      } else {
+        audio.pause();
+        resetPlayer(player);
+        currentAudio = null;
+        currentPlayer = null;
+      }
+    });
+  });
+</script>
+</body>
+</html>
