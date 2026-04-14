@@ -24,7 +24,8 @@ models/
 *.mp3
 *.ogg
 audio_cache/
-!docs/audio/
+!docs/audio/*.wav
+!docs/audio/*.mp3
 
 # Docker build artifacts
 docker/*.tar

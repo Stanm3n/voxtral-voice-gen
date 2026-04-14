@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Voxtral Voice Gen – Demo</title>
+  <title>Voxtral Voice Gen – Multilinguale Demo</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
@@ -355,19 +355,22 @@
       text-align: right;
     }
 
-    /* ── COMING SOON badge ── */
-    .coming-soon {
-      font-size: 0.72rem;
-      font-weight: 500;
-      letter-spacing: 0.06em;
+    /* Language Badge */
+    .lang-badge {
+      display: inline-block;
+      font-size: 0.70rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
       text-transform: uppercase;
-      color: var(--muted);
-      background: var(--surface);
-      border: 1px dashed var(--border);
+      padding: 3px 8px;
       border-radius: 4px;
-      padding: 10px 14px;
-      text-align: center;
+      margin-bottom: 12px;
     }
+
+    .lang-en { background: #E3F2FD; color: #1976D2; }
+    .lang-de { background: #FFF3E0; color: #F57C00; }
+    .lang-fr { background: #F3E5F5; color: #7B1FA2; }
+    .lang-it { background: #E8F5E9; color: #388E3C; }
 
     /* ── TECH STRIP ── */
     .tech-strip {
@@ -448,23 +451,23 @@
 <nav>
   <a class="nav-logo" href="#">Voxtral Voice Gen</a>
   <ul class="nav-links">
-    <li><a href="#demos">Demos</a></li>
+    <li><a href="#demos">Multilinguale Demos</a></li>
     <li><a href="#technik">Technik</a></li>
-    <li><a href="https://github.com/yourusername/voxtral-voice-gen" target="_blank">GitHub →</a></li>
+    <li><a href="https://github.com/Stanm3n/voxtral-voice-gen" target="_blank">GitHub →</a></li>
   </ul>
 </nav>
 
 <!-- HERO -->
 <section class="hero fade-in">
   <div class="hero-tag">Portfolio-Projekt · Lokale KI-Sprachsynthese</div>
-  <h1>Natürliche Sprache.<br><em>Vollständig lokal.</em></h1>
+  <h1>Lokale KI.<br><em>Globale Kommunikation.</em></h1>
   <p class="hero-sub">
-    Voxtral Voice Gen zeigt, wie das Voxtral-4B-Modell von Mistral strukturierte Texte —
-    aus Berichten, Wissensdatenbanken oder KI-Ausgaben — in hochwertige Sprache umwandelt.
-    Kein Cloud-Dienst. Keine Datenweitergabe.
+    Voxtral Voice Gen demonstriert die natürliche Mehrsprachigkeit von Voxtral-4B:
+    E-Learning Content, Kundensupport, Klinische Berichte und Logistik –
+    alles generiert auf lokaler Hardware, ohne Cloud-Dienste.
   </p>
   <div class="hero-meta">
-    <a href="https://github.com/yourusername/voxtral-voice-gen" target="_blank">
+    <a href="https://github.com/Stanm3n/voxtral-voice-gen" target="_blank">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
       Quellcode ansehen
     </a>
@@ -477,193 +480,226 @@
 <!-- DEMOS -->
 <section class="section" id="demos">
   <div class="section-header fade-in">
-    <h2>Anwendungsfälle</h2>
-    <p>Generiert mit Voxtral-4B auf lokaler Hardware</p>
+    <h2>Multilinguale Anwendungsfälle</h2>
+    <p>Generiert mit Voxtral-4B auf RTX 3090 · Native Mehrsprachigkeit & Cross-Lingual Akzente</p>
   </div>
 
   <div class="cases-grid">
 
-    <!-- 1. Finanzen -->
+    <!-- 1. E-Learning English (Female) -->
     <div class="case-card fade-in">
+      <span class="lang-badge lang-en">🇬🇧 English · Female · E-Learning</span>
       <div class="case-label">
-        <svg viewBox="0 0 24 24"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
-        Finanzreport
+        <svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h3z"/></svg>
+        E-Learning Content
       </div>
       <p class="case-text">
-        Im dritten Quartal stieg der Umsatz um 12,4 Prozent gegenüber dem Vorjahreszeitraum.
-        Wesentlicher Wachstumstreiber war die Region EMEA mit einem Zuwachs von 18 Prozent.
-        Das bereinigte EBITDA liegt bei 340 Millionen Euro.
+        "In this module, we'll explore the fundamentals of machine learning. By the end, you'll understand the difference between supervised and unsupervised learning, and know when to apply each approach."
       </p>
-      <div class="audio-player" data-src="audio/finance.mp3">
-        <button class="play-btn" aria-label="Abspielen">
+      <div class="audio-player" data-src="audio/en_female_elearning.wav">
+        <button class="play-btn" aria-label="Play">
           <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
         </button>
         <div class="waveform">
           <div class="waveform-bar" style="height:40%"></div><div class="waveform-bar" style="height:70%"></div>
-          <div class="waveform-bar" style="height:55%"></div><div class="waveform-bar" style="height:85%"></div>
-          <div class="waveform-bar" style="height:45%"></div><div class="waveform-bar" style="height:95%"></div>
+          <div class="waveform-bar" style="height:55%"></div><div class="waveform-bar" style="height:85%"></div><          <div class="waveform-bar" style="height:45%"></div><div class="waveform-bar" style="height:95%"></div>
           <div class="waveform-bar" style="height:60%"></div><div class="waveform-bar" style="height:75%"></div>
           <div class="waveform-bar" style="height:50%"></div><div class="waveform-bar" style="height:90%"></div>
           <div class="waveform-bar" style="height:65%"></div><div class="waveform-bar" style="height:40%"></div>
           <div class="waveform-bar" style="height:80%"></div><div class="waveform-bar" style="height:55%"></div>
-          <div class="waveform-bar" style="height:70%"></div><div class="waveform-bar" style="height:45%"></div>
-          <div class="waveform-bar" style="height:85%"></div><div class="waveform-bar" style="height:60%"></div>
+          <div class="waveform-bar" style="height:70%"></div><div class="waveform-bar" style="height:45%"></div><          <div class="waveform-bar" style="height:85%"></div><div class="waveform-bar" style="height:60%"></div>
           <div class="waveform-bar" style="height:35%"></div><div class="waveform-bar" style="height:75%"></div>
         </div>
         <span class="audio-time">0:00</span>
       </div>
     </div>
 
-    <!-- 2. Kundensupport -->
+    <!-- 2. E-Learning German (Male) -->
     <div class="case-card fade-in">
+      <span class="lang-badge lang-de">🇩🇪 Deutsch · Männlich · E-Learning</span>
+      <div class="case-label">
+        <svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h3z"/></svg>
+        E-Learning Content
+      </div>
+      <p class="case-text">
+        "In diesem Modul werden wir die Grundlagen des maschinellen Lernens untersuchen. Am Ende wirst du den Unterschied zwischen überwachtem und unüberwachtem Lernen verstehen und wissen, wann du jeden Ansatz anwenden solltest."
+      </p>
+      <div class="audio-player" data-src="audio/de_male_module.wav">
+        <button class="play-btn" aria-label="Abspielen">
+          <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+        </button>
+        <div class="waveform">
+          <div class="waveform-bar" style="height:60%"></div><div class="waveform-bar" style="height:45%"></div><div class="waveform-bar" style="height:80%"></div><div class="waveform-bar" style="height:55%"></div><          <div class="waveform-bar" style="height:70%"></div><div class="waveform-bar" style="height:40%"></div>
+          <div class="waveform-bar" style="height:90%"></div><div class="waveform-bar" style="height:65%"></div>
+          <div class="waveform-bar" style="height:50%"></div><div class="waveform-bar" style="height:75%"></div><          <div class="waveform-bar" style="height:85%"></div><div class="waveform-bar" style="height:45%"></div>
+          <div class="waveform-bar" style="height:60%"></div><div class="waveform-bar" style="height:95%"></div>
+          <div class="waveform-bar" style="height:55%"></div><div class="waveform-bar" style="height:70%"></div><          <div class="waveform-bar" style="height:40%"></div><div class="waveform-bar" style="height:80%"></div><div class="waveform-bar" style="height:65%"></div><          <div class="waveform-bar" style="height:50%"></div>
+        </div>
+        <span class="audio-time">0:00</span>
+      </div>
+    </div>
+
+    <!-- 3. E-Learning Italian (Male) -->
+    <div class="case-card fade-in">
+      <span class="lang-badge lang-it">🇮🇹 Italiano · Maschile · E-Learning</span>
+      <div class="case-label">
+        <svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h3z"/></svg>
+        Contenuti E-Learning
+      </div>
+      <p class="case-text">
+        "In questo modulo esploreremo i fondamenti dell'apprendimento automatico. Alla fine, capirai la differenza tra apprendimento supervisionato e non supervisionato e saprai quando applicare ciascun approccio."
+      </p>
+      <div class="audio-player" data-src="audio/it_male_module.wav">
+        <button class="play-btn" aria-label="Riproduci">
+          <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+        </button>
+        <div class="waveform">
+          <div class="waveform-bar" style="height:50%"></div><div class="waveform-bar" style="height:80%"></div><div class="waveform-bar" style="height:40%"></div><div class="waveform-bar" style="height:90%"></div><          <div class="waveform-bar" style="height:65%"></div><div class="waveform-bar" style="height:55%"></div>
+          <div class="waveform-bar" style="height:75%"></div><div class="waveform-bar" style="height:45%"></div>
+          <div class="waveform-bar" style="height:85%"></div><div class="waveform-bar" style="height:60%"></div><          <div class="waveform-bar" style="height:70%"></div><div class="waveform-bar" style="height:50%"></div>
+          <div class="waveform-bar" style="height:40%"></div><div class="waveform-bar" style="height:80%"></div><div class="waveform-bar" style="height:55%"></div><          <div class="waveform-bar" style="height:95%"></div><div class="waveform-bar" style="height:65%"></div>
+          <div class="waveform-bar" style="height:45%"></div><div class="waveform-bar" style="height:75%"></div><div class="waveform-bar" style="height:60%"></div><          <div class="waveform-bar" style="height:40%"></div>
+        </div>
+        <span class="audio-time">0:00</span>
+      </div>
+    </div>
+
+    <!-- 4. E-Learning French (Female) -->
+    <div class="case-card fade-in">
+      <span class="lang-badge lang-fr">🇫🇷 Français · Féminin · E-Learning</span>
+      <div class="case-label">
+        <svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h3z"/></svg>
+        Contenu E-Learning
+      </div>
+      <p class="case-text">
+        "Dans ce module, nous explorerons les bases de l'apprentissage automatique. À la fin, vous comprendrez la différence entre l'apprentissage supervisé et non supervisé, et saurez quand appliquer chaque approche."
+      </p>
+      <div class="audio-player" data-src="audio/fr_female_module.wav">
+        <button class="play-btn" aria-label="Écouter">
+          <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+        </button>
+        <div class="waveform">
+          <div class="waveform-bar" style="height:65%"></div><div class="waveform-bar" style="height:85%"></div><div class="waveform-bar" style="height:50%"></div><div class="waveform-bar" style="height:70%"></div><          <div class="waveform-bar" style="height:90%"></div><div class="waveform-bar" style="height:45%"></div>
+          <div class="waveform-bar" style="height:75%"></div><div class="waveform-bar" style="height:55%"></div>
+          <div class="waveform-bar" style="height:40%"></div><div class="waveform-bar" style="height:80%"></div><          <div class="waveform-bar" style="height:60%"></div><div class="waveform-bar" style="height:95%"></div>
+          <div class="waveform-bar" style="height:50%"></div><div class="waveform-bar" style="height:70%"></div><div class="waveform-bar" style="height:85%"></div><          <div class="waveform-bar" style="height:45%"></div><div class="waveform-bar" style="height:65%"></div><div class="waveform-bar" style="height:55%"></div><          <div class="waveform-bar" style="height:75%"></div><div class="waveform-bar" style="height:40%"></div>
+        </div>
+        <span class="audio-time">0:00</span>
+      </div>
+    </div>
+
+    <!-- 5. Order Support English (Male) -->
+    <div class="case-card fade-in">
+      <span class="lang-badge lang-en">🇬🇧 English · Male · Customer Support</span>
       <div class="case-label">
         <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
         Kundensupport
       </div>
       <p class="case-text">
-        Ihre Bestellung wurde soeben versandt und wird voraussichtlich bis Donnerstag,
-        den 10. April bei Ihnen eintreffen. Ihre Sendungsnummer lautet DE4892017563.
-        Bei Fragen stehen wir Ihnen jederzeit zur Verfügung.
+        "Your order has been shipped and is expected to arrive by Thursday, April 10th. Your tracking number is DE4892017563. If you have any questions, our team is available around the clock."
       </p>
-      <div class="audio-player" data-src="audio/support.mp3">
-        <button class="play-btn" aria-label="Abspielen">
+      <div class="audio-player" data-src="audio/en_male_support.wav">
+        <button class="play-btn" aria-label="Play">
           <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
         </button>
         <div class="waveform">
-          <div class="waveform-bar" style="height:60%"></div><div class="waveform-bar" style="height:45%"></div>
-          <div class="waveform-bar" style="height:80%"></div><div class="waveform-bar" style="height:55%"></div>
-          <div class="waveform-bar" style="height:70%"></div><div class="waveform-bar" style="height:40%"></div>
-          <div class="waveform-bar" style="height:90%"></div><div class="waveform-bar" style="height:65%"></div>
-          <div class="waveform-bar" style="height:50%"></div><div class="waveform-bar" style="height:75%"></div>
-          <div class="waveform-bar" style="height:85%"></div><div class="waveform-bar" style="height:45%"></div>
-          <div class="waveform-bar" style="height:60%"></div><div class="waveform-bar" style="height:95%"></div>
-          <div class="waveform-bar" style="height:55%"></div><div class="waveform-bar" style="height:70%"></div>
-          <div class="waveform-bar" style="height:40%"></div><div class="waveform-bar" style="height:80%"></div>
-          <div class="waveform-bar" style="height:65%"></div><div class="waveform-bar" style="height:50%"></div>
+          <div class="waveform-bar" style="height:55%"></div><div class="waveform-bar" style="height:75%"></div><div class="waveform-bar" style="height:90%"></div><div class="waveform-bar" style="height:50%"></div><          <div class="waveform-bar" style="height:65%"></div><div class="waveform-bar" style="height:80%"></div>
+          <div class="waveform-bar" style="height:45%"></div><div class="waveform-bar" style="height:70%"></div><div class="waveform-bar" style="height:85%"></div><div class="waveform-bar" style="height:55%"></div><          <div class="waveform-bar" style="height:40%"></div><div class="waveform-bar" style="height:95%"></div>
+          <div class="waveform-bar" style="height:60%"></div><div class="waveform-bar" style="height:75%"></div><div class="waveform-bar" style="height:50%"></div><          <div class="waveform-bar" style="height:65%"></div><div class="waveform-bar" style="height:80%"></div><div class="waveform-bar" style="height:45%"></div><          <div class="waveform-bar" style="height:70%"></div><div class="waveform-bar" style="height:55%"></div><div class="waveform-bar" style="height:40%"></div>
         </div>
         <span class="audio-time">0:00</span>
       </div>
     </div>
 
-    <!-- 3. Medizin -->
+    <!-- 6. Logistics German (Male) -->
     <div class="case-card fade-in">
-      <div class="case-label">
-        <svg viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
-        Klinischer Bericht
-      </div>
-      <p class="case-text">
-        Die Vitalwerte des Patienten sind stabil. Blutdruck 120 zu 80 Millimeter Quecksilbersäule,
-        Herzfrequenz 72 Schläge pro Minute, Sauerstoffsättigung 98 Prozent.
-        Keine Auffälligkeiten im EKG der Nacht festgestellt.
-      </p>
-      <div class="audio-player" data-src="audio/medical.mp3">
-        <button class="play-btn" aria-label="Abspielen">
-          <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-        </button>
-        <div class="waveform">
-          <div class="waveform-bar" style="height:50%"></div><div class="waveform-bar" style="height:80%"></div>
-          <div class="waveform-bar" style="height:40%"></div><div class="waveform-bar" style="height:90%"></div>
-          <div class="waveform-bar" style="height:65%"></div><div class="waveform-bar" style="height:55%"></div>
-          <div class="waveform-bar" style="height:75%"></div><div class="waveform-bar" style="height:45%"></div>
-          <div class="waveform-bar" style="height:85%"></div><div class="waveform-bar" style="height:60%"></div>
-          <div class="waveform-bar" style="height:70%"></div><div class="waveform-bar" style="height:50%"></div>
-          <div class="waveform-bar" style="height:40%"></div><div class="waveform-bar" style="height:80%"></div>
-          <div class="waveform-bar" style="height:55%"></div><div class="waveform-bar" style="height:95%"></div>
-          <div class="waveform-bar" style="height:65%"></div><div class="waveform-bar" style="height:45%"></div>
-          <div class="waveform-bar" style="height:75%"></div><div class="waveform-bar" style="height:60%"></div>
-        </div>
-        <span class="audio-time">0:00</span>
-      </div>
-    </div>
-
-    <!-- 4. Logistik -->
-    <div class="case-card fade-in">
+      <span class="lang-badge lang-de">🇩🇪 Deutsch · Männlich · Logistik</span>
       <div class="case-label">
         <svg viewBox="0 0 24 24"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
         Logistik & Disposition
       </div>
       <p class="case-text">
-        Fahrer Müller, Ihre Route wurde aktualisiert. Drei zusätzliche Stopps wurden hinzugefügt.
-        Die neue geschätzte Abschlusszeit beträgt 17 Uhr 30.
-        Bitte bestätigen Sie den Eingang dieser Nachricht.
+        "Fahrer Müller, Ihre Route wurde aktualisiert. Drei zusätzliche Stopps wurden hinzugefügt. Die neue geschätzte Abschlusszeit beträgt 17 Uhr 30. Bitte bestätigen Sie den Eingang dieser Nachricht."
       </p>
-      <div class="audio-player" data-src="audio/logistics.mp3">
+      <div class="audio-player" data-src="audio/de_male_transport.wav">
         <button class="play-btn" aria-label="Abspielen">
           <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
         </button>
         <div class="waveform">
-          <div class="waveform-bar" style="height:75%"></div><div class="waveform-bar" style="height:50%"></div>
-          <div class="waveform-bar" style="height:90%"></div><div class="waveform-bar" style="height:60%"></div>
-          <div class="waveform-bar" style="height:40%"></div><div class="waveform-bar" style="height:80%"></div>
-          <div class="waveform-bar" style="height:55%"></div><div class="waveform-bar" style="height:95%"></div>
-          <div class="waveform-bar" style="height:65%"></div><div class="waveform-bar" style="height:45%"></div>
-          <div class="waveform-bar" style="height:70%"></div><div class="waveform-bar" style="height:85%"></div>
-          <div class="waveform-bar" style="height:50%"></div><div class="waveform-bar" style="height:60%"></div>
-          <div class="waveform-bar" style="height:75%"></div><div class="waveform-bar" style="height:40%"></div>
-          <div class="waveform-bar" style="height:90%"></div><div class="waveform-bar" style="height:55%"></div>
-          <div class="waveform-bar" style="height:70%"></div><div class="waveform-bar" style="height:80%"></div>
+          <div class="waveform-bar" style="height:75%"></div><div class="waveform-bar" style="height:50%"></div><div class="waveform-bar" style="height:90%"></div><div class="waveform-bar" style="height:60%"></div><          <div class="waveform-bar" style="height:40%"></div><div class="waveform-bar" style="height:80%"></div>
+          <div class="waveform-bar" style="height:55%"></div><div class="waveform-bar" style="height:95%"></div><div class="waveform-bar" style="height:65%"></div><div class="waveform-bar" style="height:45%"></div><          <div class="waveform-bar" style="height:70%"></div><div class="waveform-bar" style="height:85%"></div><div class="waveform-bar" style="height:50%"></div><div class="waveform-bar" style="height:60%"></div><          <div class="waveform-bar" style="height:75%"></div><div class="waveform-bar" style="height:40%"></div><div class="waveform-bar" style="height:90%"></div><div class="waveform-bar" style="height:55%"></div><          <div class="waveform-bar" style="height:70%"></div><div class="waveform-bar" style="height:80%"></div>
         </div>
         <span class="audio-time">0:00</span>
       </div>
     </div>
 
-    <!-- 5. Nachrichten -->
+    <!-- 7. Clinical Italian (Male) -->
     <div class="case-card fade-in">
+      <span class="lang-badge lang-it">🇮🇹 Italiano · Maschile · Clinico</span>
       <div class="case-label">
-        <svg viewBox="0 0 24 24"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"/><path d="M18 14h-8"/><path d="M15 18h-5"/><path d="M10 6h8v4h-8V6Z"/></svg>
-        Nachrichten & Broadcast
+        <svg viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+        Klinischer Bericht
       </div>
       <p class="case-text">
-        Die deutschen Aktienmärkte schlossen heute im Plus. Der DAX legte um 1,2 Prozent zu
-        und erreichte 18.320 Punkte. Auslöser war die überraschend niedrig ausgefallene
-        Inflationsrate von 2,1 Prozent für den Monat März.
+        "I parametri vitali del paziente sono stabili. Pressione arteriosa 120 su 80 millimetri di mercurio, frequenza cardiaca 72 battiti al minuto, saturazione di ossigeno 98 percento. Nessuna anomalia rilevata nell'ECG notturno."
       </p>
-      <div class="audio-player" data-src="audio/news.mp3">
+      <div class="audio-player" data-src="audio/it_male_clinic.wav">
+        <button class="play-btn" aria-label="Riproduci">
+          <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+        </button>
+        <div class="waveform">
+          <div class="waveform-bar" style="height:60%"></div><div class="waveform-bar" style="height:45%"></div><div class="waveform-bar" style="height:80%"></div><div class="waveform-bar" style="height:55%"></div><          <div class="waveform-bar" style="height:70%"></div><div class="waveform-bar" style="height:40%"></div>
+          <div class="waveform-bar" style="height:90%"></div><div class="waveform-bar" style="height:65%"></div><div class="waveform-bar" style="height:50%"></div><div class="waveform-bar" style="height:75%"></div><          <div class="waveform-bar" style="height:85%"></div><div class="waveform-bar" style="height:45%"></div>
+          <div class="waveform-bar" style="height:60%"></div><div class="waveform-bar" style="height:95%"></div><div class="waveform-bar" style="height:55%"></div><          <div class="waveform-bar" style="height:70%"></div><div class="waveform-bar" style="height:40%"></div><div class="waveform-bar" style="height:80%"></div><div class="waveform-bar" style="height:65%"></div><          <div class="waveform-bar" style="height:45%"></div><div class="waveform-bar" style="height:75%"></div><div class="waveform-bar" style="height:60%"></div>
+        </div>
+        <span class="audio-time">0:00</span>
+      </div>
+    </div>
+
+    </div>
+
+    <!-- 8. Smart Home German (Male) -->
+    <div class="case-card fade-in">
+      <span class="lang-badge lang-de">🇩🇪 Deutsch · Männlich · Voice Agent</span>
+      <div class="case-label">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 9v6"/><path d="M12 21v-3"/></svg>
+        Smart Home & Assistenz
+      </div>
+      <p class="case-text">
+        "Guten Morgen. Es ist 7 Uhr 15. Die Außentemperatur beträgt 9 Grad. Deine erste Besprechung beginnt um 9 Uhr 30. Die Strecke zur Arbeit ist aktuell frei, geschätzte Fahrzeit: 22 Minuten."
+      </p>
+      <div class="audio-player" data-src="audio/de_male_smarthome.wav">
         <button class="play-btn" aria-label="Abspielen">
           <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
         </button>
         <div class="waveform">
-          <div class="waveform-bar" style="height:65%"></div><div class="waveform-bar" style="height:85%"></div>
-          <div class="waveform-bar" style="height:50%"></div><div class="waveform-bar" style="height:70%"></div>
-          <div class="waveform-bar" style="height:90%"></div><div class="waveform-bar" style="height:45%"></div>
-          <div class="waveform-bar" style="height:75%"></div><div class="waveform-bar" style="height:55%"></div>
-          <div class="waveform-bar" style="height:40%"></div><div class="waveform-bar" style="height:80%"></div>
-          <div class="waveform-bar" style="height:60%"></div><div class="waveform-bar" style="height:95%"></div>
-          <div class="waveform-bar" style="height:50%"></div><div class="waveform-bar" style="height:70%"></div>
-          <div class="waveform-bar" style="height:85%"></div><div class="waveform-bar" style="height:45%"></div>
+          <div class="waveform-bar" style="height:70%"></div><div class="waveform-bar" style="height:45%"></div><div class="waveform-bar" style="height:60%"></div><div class="waveform-bar" style="height:85%"></div>
+          <div class="waveform-bar" style="height:50%"></div><div class="waveform-bar" style="height:75%"></div><div class="waveform-bar" style="height:90%"></div><div class="waveform-bar" style="height:40%"></div>
           <div class="waveform-bar" style="height:65%"></div><div class="waveform-bar" style="height:55%"></div>
-          <div class="waveform-bar" style="height:75%"></div><div class="waveform-bar" style="height:40%"></div>
+          <div class="waveform-bar" style="height:80%"></div><div class="waveform-bar" style="height:45%"></div><div class="waveform-bar" style="height:95%"></div><div class="waveform-bar" style="height:60%"></div><          <div class="waveform-bar" style="height:70%"></div><div class="waveform-bar" style="height:50%"></div><div class="waveform-bar" style="height:85%"></div><div class="waveform-bar" style="height:40%"></div><          <div class="waveform-bar" style="height:75%"></div><div class="waveform-bar" style="height:55%"></div><div class="waveform-bar" style="height:65%"></div><div class="waveform-bar" style="height:90%"></div>
         </div>
         <span class="audio-time">0:00</span>
       </div>
     </div>
 
-    <!-- 6. Accessibility -->
+    <!-- 9. Legal Document German (Female) -->
     <div class="case-card fade-in">
+      <span class="lang-badge lang-de">🇩🇪 Deutsch · Weiblich · Recht</span>
       <div class="case-label">
-        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-        Barrierefreiheit
+        <svg viewBox="0 0 24 24"><path d="M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"/><path d="M9 12h6"/><path d="M12 9v6"/></svg>
+        Rechtsdokument & Barrierefreiheit
       </div>
       <p class="case-text">
-        Abschnitt drei, Datenschutz. Der Verantwortliche verarbeitet personenbezogene Daten
-        ausschließlich auf Grundlage der DSGVO. Eine Weitergabe an Dritte erfolgt nur
-        mit ausdrücklicher Einwilligung der betroffenen Person.
+        "Gemäß Paragraph 13 des Vertrages ist der Auftragnehmer verpflichtet, die vereinbarten Leistungen bis zum 30. Juni zu erbringen. Bei Verzug wird eine Vertragsstrafe von 0,5 Prozent des Auftragswertes pro Werktag fällig."
       </p>
-      <div class="audio-player" data-src="audio/accessibility.mp3">
+      <div class="audio-player" data-src="audio/de_female_legal.wav">
         <button class="play-btn" aria-label="Abspielen">
           <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
         </button>
         <div class="waveform">
-          <div class="waveform-bar" style="height:55%"></div><div class="waveform-bar" style="height:75%"></div>
-          <div class="waveform-bar" style="height:90%"></div><div class="waveform-bar" style="height:50%"></div>
-          <div class="waveform-bar" style="height:65%"></div><div class="waveform-bar" style="height:80%"></div>
-          <div class="waveform-bar" style="height:45%"></div><div class="waveform-bar" style="height:70%"></div>
-          <div class="waveform-bar" style="height:85%"></div><div class="waveform-bar" style="height:55%"></div>
-          <div class="waveform-bar" style="height:40%"></div><div class="waveform-bar" style="height:95%"></div>
-          <div class="waveform-bar" style="height:60%"></div><div class="waveform-bar" style="height:75%"></div>
-          <div class="waveform-bar" style="height:50%"></div><div class="waveform-bar" style="height:65%"></div>
-          <div class="waveform-bar" style="height:80%"></div><div class="waveform-bar" style="height:45%"></div>
-          <div class="waveform-bar" style="height:70%"></div><div class="waveform-bar" style="height:55%"></div>
+          <div class="waveform-bar" style="height:55%"></div><div class="waveform-bar" style="height:80%"></div><div class="waveform-bar" style="height:45%"></div><div class="waveform-bar" style="height:70%"></div>
+          <div class="waveform-bar" style="height:90%"></div><div class="waveform-bar" style="height:65%"></div><div class="waveform-bar" style="height:50%"></div><div class="waveform-bar" style="height:75%"></div>
+          <div class="waveform-bar" style="height:40%"></div><div class="waveform-bar" style="height:85%"></div><div class="waveform-bar" style="height:55%"></div><div class="waveform-bar" style="height:95%"></div><div class="waveform-bar" style="height:60%"></div><          <div class="waveform-bar" style="height:70%"></div><div class="waveform-bar" style="height:45%"></div><div class="waveform-bar" style="height:80%"></div><div class="waveform-bar" style="height:65%"></div><          <div class="waveform-bar" style="height:50%"></div><div class="waveform-bar" style="height:75%"></div><div class="waveform-bar" style="height:40%"></div><div class="waveform-bar" style="height:90%"></div>
         </div>
         <span class="audio-time">0:00</span>
       </div>
@@ -692,16 +728,16 @@
       <p>NVIDIA RTX 3090 · Lokal</p>
     </div>
     <div class="tech-item fade-in">
-      <h4>Datenschutz</h4>
-      <p>100 % lokal · Kein Cloud-API</p>
+      <h4>Sprachen</h4>
+      <p>DE · EN · FR · IT · Native</p>
     </div>
   </div>
 </div>
 
 <!-- FOOTER -->
 <footer>
-  <p>Portfolio-Projekt · Voxtral Voice Gen</p>
-  <a href="https://github.com/yourusername/voxtral-voice-gen" target="_blank">GitHub →</a>
+  <p>Portfolio-Projekt · Voxtral Voice Gen · 2026</p>
+  <a href="https://github.com/Stanm3n/voxtral-voice-gen" target="_blank">GitHub →</a>
 </footer>
 
 <script>
