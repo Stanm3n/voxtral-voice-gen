@@ -8,6 +8,14 @@ vad_utils = None
 
 log = logging.getLogger("voicebot.stt")
 
+
+class SpeechRecognitionUnavailable(RuntimeError):
+    """Whisper could not be initialized."""
+
+
+class TranscriptionError(RuntimeError):
+    """Speech recognition failed while processing an input."""
+
 # Common Whisper hallucinations (English/German) based on Vexa-ai lists and common patterns.
 # These will be blocked if the entire transcript matches one of these (case-insensitive).
 HALLUCINATION_BLOCKLIST = [
@@ -24,6 +32,7 @@ HALLUCINATION_BLOCKLIST = [
 def init_whisper(device: str, device_index: int):
     """Initialize Whisper and Silero VAD on the GPU."""
     global whisper_model, vad_model, vad_utils
+    whisper_model = vad_model = vad_utils = None
     
     # 1. Silero VAD Initialization
     log.info(f"Loading Silero VAD on {device}:{device_index} …")
@@ -111,7 +120,7 @@ def _sync_transcribe(path: str) -> str:
 async def transcribe(audio_bytes: bytes) -> Dict:
     """Entry point for speech-to-text conversion."""
     if whisper_model is None:
-        return {"transcript": "", "duration_ms": 0}
+        raise SpeechRecognitionUnavailable("Speech recognition is unavailable. Check the startup logs.")
 
     t0 = time.perf_counter()
     
@@ -127,4 +136,9 @@ async def transcribe(audio_bytes: bytes) -> Dict:
         return {"transcript": transcript, "duration_ms": duration_ms}
     except Exception as exc:
         log.error(f"STT pipeline error: {exc}")
-        return {"transcript": "", "duration_ms": 0}
+        raise TranscriptionError("Speech recognition failed. Check the service logs.") from exc
+    finally:
+        try:
+            os.unlink(tmp_path)
+        except OSError:
+            pass

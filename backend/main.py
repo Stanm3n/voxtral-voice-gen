@@ -68,15 +68,25 @@ app.add_middleware(
 @app.get("/health")
 async def health():
     import httpx
-    status = {"llm": "loading", "voxtral": "loading", "whisper": "ok", "llm_model": LLM_MODEL}
+    status = {
+        "llm": "offline", "voxtral": "offline",
+        "whisper": "ok" if stt.whisper_model is not None else "offline",
+        "llm_model": LLM_MODEL,
+    }
 
     async def check(url: str, key: str):
-        if url.startswith("https://api.") or url.startswith("https://openrouter."):
-            status[key] = "ok"
-            return
         try:
             async with httpx.AsyncClient(timeout=1.5) as client:
-                if (await client.get(url.replace("/v1", "/health"))).status_code == 200:
+                if key == "llm":
+                    response = await client.get(
+                        f"{url.rstrip('/')}/models",
+                        headers={"Authorization": f"Bearer {LLM_API_KEY}"},
+                    )
+                    if response.status_code == 200:
+                        models = response.json().get("data", [])
+                        if any(model.get("id") == LLM_MODEL for model in models):
+                            status[key] = "ok"
+                elif (await client.get(url.rstrip('/').removesuffix('/v1') + '/health')).status_code == 200:
                     status[key] = "ok"
         except Exception:
             pass
@@ -100,7 +110,12 @@ async def speech_to_text(request: Request, audio: UploadFile = File(...)):
     if len(content) > 25 * 1024 * 1024:
         raise HTTPException(status_code=413, detail="Audio file too large (max 25MB)")
     
-    res = await stt.transcribe(content)
+    try:
+        res = await stt.transcribe(content)
+    except stt.SpeechRecognitionUnavailable as exc:
+        raise HTTPException(status_code=503, detail=str(exc)) from exc
+    except stt.TranscriptionError as exc:
+        raise HTTPException(status_code=502, detail=str(exc)) from exc
     return {"text": res["transcript"], "duration_ms": res["duration_ms"]}
 
 
@@ -110,16 +125,23 @@ async def speech_to_text(request: Request, audio: UploadFile = File(...)):
 async def text_to_speech(request: Request, body: dict):
     # 1. Validation: Text length (2000 chars)
     text = body.get("text", "")
+    if not isinstance(text, str) or not text.strip():
+        raise HTTPException(status_code=400, detail="Text must be a non-empty string.")
     if len(text) > 2000:
         raise HTTPException(status_code=413, detail="Text input too long (max 2000 chars)")
 
     t0 = time.perf_counter()
-    audio = await tts.synthesize(
-        text,
-        body.get("voice", VOXTRAL_VOICE),
-        VOXTRAL_MODEL,
-        VOXTRAL_URL,
-    )
+    try:
+        audio = await tts.synthesize(
+            text,
+            body.get("voice", VOXTRAL_VOICE),
+            VOXTRAL_MODEL,
+            VOXTRAL_URL,
+        )
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+    except tts.SynthesisError as exc:
+        raise HTTPException(status_code=502, detail=str(exc)) from exc
     return Response(
         content=audio,
         media_type="audio/wav",

@@ -21,15 +21,15 @@ state-of-the-art neural text-to-speech engine entirely on local hardware.
 *9 multilingual voice samples (DE, EN, FR, IT) showcasing E-Learning, Customer Support, Clinical Reports, and more.*
 
 The idea: structured text — from LLM outputs, reports, or knowledge bases — gets synthesized
-into natural speech, with no cloud dependency and no data leaving the machine. Think of it
-as a local alternative to services like ElevenLabs or Azure TTS, built from scratch to
-understand what's actually happening under the hood.
+into speech by a locally hosted TTS service. The optional chat mode can use either a local
+LLM or a cloud API. When a cloud API is configured, chat messages are sent to that provider.
+The project connects existing models and serving tools into an application with a browser interface.
 
 The project demonstrates three distinct engineering competencies:
 
 - **ML Serving:** Running a 4B-parameter multimodal model via a containerized OpenAI-compatible API
 - **Async Backend Design:** A FastAPI server that coordinates multiple AI services without blocking
-- **Pipeline Resilience:** Multi-stage input sanitization to prevent synthesis errors and model hallucinations
+- **Pipeline Resilience:** Input cleaning, silence detection and explicit service error reporting
 
 ---
 
@@ -62,7 +62,7 @@ endpoint)
 └─────────────────────────────┘
          │
          ▼
-  Audio Stream → Browser (WebSocket, gapless PCM playback)
+  Complete WAV file → Browser (HTTP or base64 over WebSocket)
 ```
 
 ### Key Engineering Decisions
@@ -76,7 +76,9 @@ allowing the backend to treat it as a stateless API — the same pattern used in
 Chunked TTS (sentence-by-sentence) reduces time-to-first-audio but breaks prosodic consistency —
 each chunk is synthesized without context from the previous one, producing audible tonal shifts
 at sentence boundaries. For voice output where quality is the product, this tradeoff is unacceptable.
-The architecture prioritizes output fidelity over raw latency.
+The implementation synthesizes the complete response in one call. Text streams during
+generation, but audio playback starts only after the response and synthesis are complete.
+Audio is returned as WAV, not as a continuous PCM stream.
 
 **Why an async FastAPI backend?**
 Whisper's transcription is synchronous and CPU/GPU-bound. Running it in an `asyncio` executor pool
@@ -173,20 +175,21 @@ git clone https://github.com/Stanm3n/voxtral-voice-gen
 cd voxtral-voice-gen
 ```
 
-**2. Download model weights**
-Pulls the Voxtral-4B weights (~8GB) into the local `models/` directory:
-```bash
-download_models.bat
-```
-
-*If download fails, set your Hugging Face token: `set HF_TOKEN=your_token_here`*
-
-**3. Install dependencies**
+**2. Install dependencies**
 Creates a Python virtual environment, installs PyTorch with CUDA 12.1 support, and
 generates a `.env` configuration file:
 ```bash
 install.bat
 ```
+
+**3. Download model weights**
+The download script uses the virtual environment created by `install.bat`.
+It pulls the Voxtral-4B weights into the local `models/` directory:
+```bash
+download_models.bat
+```
+
+*If download fails, set your Hugging Face token: `set HF_TOKEN=your_token_here`*
 
 **4. Configure environment**
 ```env
@@ -209,6 +212,54 @@ start.bat
 Starts the Voxtral Docker container and the FastAPI backend. Open `http://localhost:8000`.
 
 ---
+
+## Service status and errors
+
+`/health` reports Whisper as ready only when its model has loaded. The LLM check requests
+the configured endpoint's `/models` with the API key and verifies that the configured model
+is listed. Voxtral is checked through its `/health` endpoint. These are readiness checks,
+not a successful-generation benchmark. Providers without a compatible model-list endpoint
+may appear offline even when their completion endpoint works.
+
+- `/tts` returns HTTP 400 for empty, invalid or unspeakable text and 413 above 2,000 characters.
+- Upstream synthesis failures and empty audio return HTTP 502 instead of a successful empty WAV.
+- `/stt` returns 503 if Whisper is unavailable and 502 if transcription fails. Valid silence
+  still returns an empty transcript successfully.
+- Chat mode emits a WebSocket error if synthesis fails, rather than a successful `done` event.
+
+## Current limitations
+
+This is a single-user prototype for a controlled local environment. It has no user accounts
+or chat-history isolation. CORS and request limits are not authentication; do not expose it
+as a public service without further access controls. The startup script binds the backend
+to all interfaces, and Compose publishes the TTS port.
+
+The Dockerfile still uses a moving base-image tag and unpinned vLLM-Omni source. Rebuilding
+may change the runtime; verified image/source revisions should be recorded after a successful
+GPU setup. This maintenance update did not rebuild containers or download models.
+
+Whisper's blocklist can suppress legitimate short phrases. VAD failure falls back to Whisper.
+Chat storage is a local JSON file, and concurrent writes are not protected. The inline
+reasoning-tag parser is not robust to every possible stream-chunk boundary.
+
+## Regression tests without GPU
+
+The tests use the actual FastAPI routes and WebSocket handler with controlled HTTP responses
+and model substitutes. No model downloads, external API calls or GPU inference are required.
+They check error propagation and service state, not speech quality or full deployment.
+
+```powershell
+python -m venv .venv-tests
+.\.venv-tests\Scripts\Activate.ps1
+pip install -r tests/requirements.txt
+python -m unittest discover -s tests -v
+```
+
+The browser error-message flow can also be tested with Node.js:
+
+```powershell
+node --test tests/frontend-errors.test.cjs
+```
 
 ## Hardware
 
